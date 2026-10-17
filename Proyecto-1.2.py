@@ -3,7 +3,7 @@ class Nodo:
 
     def __init__(self, nombre):
         self.nombre = nombre
-        # Diccionario: vecino -> peso. Ejemplo: {"B": 4, "C": 2}
+        
         self.vecinos = {}
 
     def agregar_vecino(self, vecino, peso):
@@ -14,7 +14,7 @@ class Grafo:
     """Guarda todos los nodos del grafo."""
 
     def __init__(self):
-        # Diccionario: nombre -> objeto Nodo
+        
         self.nodos = {}
 
     def agregar_nodo(self, nombre):
@@ -30,23 +30,23 @@ class Grafo:
         self.nodos[destino].agregar_vecino(origen, peso)
 
     def dijkstra(self, inicio, destino):
-        """Regresa (distancia_total, camino). Si no hay camino: (None, [])."""
+        
 
         distancias = {}
         anteriores = {}
         visitados = set()
 
-        # 1. Todos empiezan con distancia infinita y sin nodo anterior
+        
         for nombre in self.nodos:
             distancias[nombre] = float("inf")
             anteriores[nombre] = None
 
-        # La distancia del inicio a sí mismo es 0
+       
         distancias[inicio] = 0
 
-        # 2. Mientras queden nodos por visitar
+        
         while len(visitados) < len(self.nodos):
-            # Buscar el nodo no visitado más cercano
+            
             nodo_actual = None
             menor_distancia = float("inf")
 
@@ -56,32 +56,32 @@ class Grafo:
                         menor_distancia = distancias[nombre]
                         nodo_actual = nombre
 
-            # Si ya no hay nodos alcanzables, terminamos
+            
             if nodo_actual is None:
                 break
 
-            # Si llegamos al destino, terminamos
+            
             if nodo_actual == destino:
                 break
 
             visitados.add(nodo_actual)
 
-            # 3. Revisar los vecinos del nodo actual
+            
             nodo = self.nodos[nodo_actual]
 
             for vecino, peso in nodo.vecinos.items():
                 nueva_distancia = distancias[nodo_actual] + peso
 
-                # Si este camino es más corto, lo guardamos
+                
                 if nueva_distancia < distancias[vecino]:
                     distancias[vecino] = nueva_distancia
                     anteriores[vecino] = nodo_actual
 
-        # Si el destino sigue en infinito, no hay camino
+        
         if distancias[destino] == float("inf"):
             return None, []
 
-        # 4. Construir el camino yendo del destino hacia atrás
+        
         camino = []
         actual = destino
 
@@ -93,9 +93,8 @@ class Grafo:
         return distancias[destino], camino
 
 
-# ---------- Programa principal ----------
 if __name__ == "__main__":
-    # Creamos el grafo y agregamos las conexiones
+    
     grafo = Grafo()
     grafo.agregar_arista("A", "B", 4)
     grafo.agregar_arista("A", "C", 2)
